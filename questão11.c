@@ -9,6 +9,7 @@
 
 int main(){
 
+    //está faltando fazer a opção do usuário escolher o arquivo.
     //primeiramente, o mais essencial será abrir o arquivo.
     FILE *arquivo = fopen("results.csv","r");//esse "r" é apenas para indicar que apenas será lido.
     if (arquivo == NULL) {//caso não ache o arquivo, ele deve resultar nessa parte.
@@ -21,17 +22,17 @@ int main(){
 
     char linha[MAX_LINE];
     char pais_escolhido[4];
-    printf("Digite o país (NOC com apenas 3 letras, ex: BRA, FRA): ");
+    printf("Digite o país (NOC com apenas 3 letras ex: BRA, FRA): ");
     scanf("%3s", pais_escolhido); // esse n3 é para definir o tamanho máximo.
 
     //isso aqui é para ignorar o cabeçalio.
     fgets(linha, MAX_LINE, arquivo);
 
-    while (fgets(linha, MAX_LINE, arquivo)) {
-        char *games, *event, *team, *pos, *medal, *as, *athlete_id, *noc;
+    while(fgets(linha, MAX_LINE, arquivo)){
+        char *games, *event, *team, *pos, *medal, *as, *athlete_id, *noc; //aqui cria-se ponteiros para determinadas informações.
         
         games = strtok(linha, ","); //esses strtok servem para basicamentre separarem a string original pegada por "linha" e dividi-lá em partes.
-        event = strtok(NULL, ","); //exemplo : 
+        event = strtok(NULL, ","); //cada ponteiro desse criado irá apontar para a informação que está separada por vírgulas.
         team = strtok(NULL, ",");
         pos = strtok(NULL, ",");
         medal = strtok(NULL, ",");
@@ -39,14 +40,14 @@ int main(){
         athlete_id = strtok(NULL, ",");
         noc = strtok(NULL, ",");
 
-        if(!games || !medal || !noc){// se um desses for null, não há relevância, logo não deve nem ser contqbilizado, pq o que interessa são os campeões.
+        if(games==NULL || medal==NULL || noc==NULL){// se um desses for null, não há relevância, logo não deve nem ser contqbilizado, pq o que interessa são os campeões.
             continue;
         }
 
-        if (strcmp(noc, pais_escolhido) == 0 && strlen(medal) > 0) {//verifica se o paíz escolhido é igual ao país da linha e verifica se há medalha.
+        if(strcmp(noc, pais_escolhido) == 0 && strlen(medal) > 0) {//verifica se o paíz escolhido é igual ao país da linha e verifica se há medalha.
             int ano = atoi(games);//pega apenas o início da string e converte até onde for número.
 
-            if (ano < primeiro_ano) {// se esse ano fot maior que o primeiro ano...
+            if(ano < primeiro_ano) {// se esse ano for menor que o primeiro ano...
                 primeiro_ano = ano;//primeiro ano se tornará esse ano.
                 strcpy(primeira_edicao, games);//aqui primeira edição receberá o "games" como valor.
             }
