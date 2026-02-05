@@ -42,31 +42,34 @@ int main(){
     fgets(linha, MAX_LINE, arquivo);//apenas para remover o cabeçalho.
 
     while(fgets(linha, MAX_LINE, arquivo)){
-        char *games, *event, *team, *pos, *medal, *as, *athlete_id, *noc;
-        
-        games = strtok(linha, ",");
+        char *year, *type, *discipline, *event, *as, *athlete_id, *noc, *team, *place, *tied, *medal;
+
+        year = strtok(linha, ",");
+        type = strtok(NULL, ",");
+        discipline = strtok(NULL, ",");
         event = strtok(NULL, ",");
-        team = strtok(NULL, ",");
-        pos = strtok(NULL, ",");
-        medal = strtok(NULL, ",");
         as = strtok(NULL, ",");
         athlete_id = strtok(NULL, ",");
         noc = strtok(NULL, ",");
+        team = strtok(NULL, ",");
+        place = strtok(NULL, ",");
+        tied = strtok(NULL, ",");
+        medal = strtok(NULL, ",");
 
-        if(edicao_escolhida!=atoi(games)){
+        if(edicao_escolhida!=(int)(atoi(year))){
             continue;// Se o ano da competição for direfernte, ele não deve contabilizar.
         }
-        if (medal==NULL ||strlen(medal) == 0 ) {
+        if (medal==NULL ||strlen(medal) == 0 ) {//vê se ganhou medalha.
             continue; // não ganhou medalha
         }
 
-        if (strlen(athlete_id) != 0 && athlete_id!=NULL) {//verifica se há String do id do atleta
+        if (athlete_id!=NULL && strlen(athlete_id) > 0 ) {//verifica se há String do id do atleta
             int id = atoi(athlete_id); // converte de string para int
             int *temp = realloc(lista, (tamanho + 1) * sizeof(int));//refaz a lista adicionando esse id.
             if (temp == NULL) {
                 free(lista);
                 printf("Erro de memória.\n");
-                return 0;
+                return 1;//precisa ter o return, pq se não dará erro.
             }
             lista = temp;
             lista[tamanho] = id;
@@ -74,9 +77,7 @@ int main(){
         }
     }
     fclose(arquivo);//não é mais necessário ter esse arquivo aberto.
-    if (tamanho==0){
-        return 0;
-    }
+
     FILE *bio = fopen("arquivoscsvs/athletes/bios_locs.csv","r");
 
     fgets(linha, MAX_LINE, bio);//apenas para remover o cabeçalho.    
@@ -116,7 +117,7 @@ int main(){
     fclose(bio);//não é mais necessário ter esse arquivo aberto.
     if(qtdd_atletas!=0){
         double imc_medio= imc_total/qtdd_atletas;
-        printf("O IMC médio na olímpiada do ano de %d foi de: %.2lf",edicao_escolhida,imc_medio);
+        printf("O IMC médio na olímpiada do ano de %lf foi de: %.2lf",edicao_escolhida,imc_medio);
     }
     return 0;
 }
