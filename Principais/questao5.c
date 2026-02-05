@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "questao5.h"
 
 #define MAX_LINE 262144
 
-int main(){
+
+int executarQuestao5(void){
     //primeireo passo será guardar o ID de todos os atletas que ganharam algum jogo de determinada edição.
 
     FILE *arquivo = fopen("arquivoscsvs/results/results.csv","r");//pega os arquivos com todos os jogos.
@@ -93,6 +95,7 @@ int main(){
             tamanho++;
         }
     }
-
+    free(bio);//não é mais necessário ter esse arquivo aberto.
     return 0;
 }
+ 
