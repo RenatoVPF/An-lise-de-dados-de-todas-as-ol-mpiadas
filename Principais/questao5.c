@@ -43,11 +43,11 @@ int main(){
 
     while(fgets(linha, MAX_LINE, arquivo)){
         char *games, *Event, *Team, *Pos, *Medal, *As, *athlete_id;
-
+        //eu tenho que remover a parte que está entre aspas.
         //Games,Event,Team,Pos,Medal,As,athlete_id.
 
         games = strtok(linha, ",");
-        Event = strtok(NULL, '",');
+        Event = strtok(NULL, ",");
         Team = strtok(NULL, ",");
         Pos = strtok(NULL, ",");
         Medal = strtok(NULL, ",");
