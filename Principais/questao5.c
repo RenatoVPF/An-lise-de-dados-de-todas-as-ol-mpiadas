@@ -53,7 +53,10 @@ int main(){
         athlete_id = strtok(NULL, ",");
         noc = strtok(NULL, ",");
 
-        if (strlen(medal) == 0) {
+        if(edicao_escolhida!=atoi(games)){
+            continue;// Se o ano da competição for direfernte, ele não deve contabilizar.
+        }
+        if (medal==NULL ||strlen(medal) == 0 ) {
             continue; // não ganhou medalha
         }
 
@@ -71,13 +74,13 @@ int main(){
             tamanho++;
         }
     }
-    free(arquivo);//não é mais necessário ter esse arquivo aberto.
+    fclose(arquivo);//não é mais necessário ter esse arquivo aberto.
     if (tamanho==0){
         return 0;
     }
     FILE *bio = fopen("arquivoscsvs/athletes/bios_locs.csv","r");
 
-    fgets(linha, MAX_LINE, arquivo);//apenas para remover o cabeçalho.    
+    fgets(linha, MAX_LINE, bio);//apenas para remover o cabeçalho.    
 
     while(fgets(linha, MAX_LINE, bio)){
         //o arquivo original CSV é:
@@ -107,10 +110,10 @@ int main(){
             continue;
         }
     }
-    free(bio);//não é mais necessário ter esse arquivo aberto.
+    fclose(bio);//não é mais necessário ter esse arquivo aberto.
     if(qtdd_atletas!=0){
         double imc_medio= imc_total/qtdd_atletas;
-        printf("O IMC médio na olímpiada do ano de %d foi de: %2.lf",edicao_escolhida,imc_medio);
+        printf("O IMC médio na olímpiada do ano de %d foi de: %.2lf",edicao_escolhida,imc_medio);
     }
     return 0;
 }
