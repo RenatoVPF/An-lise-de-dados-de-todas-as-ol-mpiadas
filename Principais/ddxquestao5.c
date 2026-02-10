@@ -5,7 +5,7 @@
 #include "ddxquestao5.h"
 
 
-int executarDdxQuestao5(void){
+int executarDdxQuestao5(){
    
     FILE *arquivo = fopen("arquivoscsvs/results/results.csv", "r");
     if (!arquivo) {
